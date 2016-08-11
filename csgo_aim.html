@@ -1,0 +1,196 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body id="body">
+
+<audio src="beep.mp3" id="beep1"></audio>
+<audio src="beep.mp3" id="beep2"></audio>
+<audio src="beep.mp3" id="beep3"></audio>
+<audio src="beep.mp3" id="beep4"></audio>
+<audio src="beep.mp3" id="beep5"></audio>
+<audio src="beep.mp3" id="beep6"></audio>
+<audio src="beep.mp3" id="beep7"></audio>
+<audio src="beep.mp3" id="beep8"></audio>
+<audio src="beep.mp3" id="beep9"></audio>
+<audio src="beep.mp3" id="beep10"></audio>
+
+<audio src="ak47.mp3" id="ak1"></audio>
+<audio src="ak47.mp3" id="ak2"></audio>
+<audio src="ak47.mp3" id="ak3"></audio>
+<audio src="ak47.mp3" id="ak4"></audio>
+<audio src="ak47.mp3" id="ak5"></audio>
+<audio src="ak47.mp3" id="ak6"></audio>
+<audio src="ak47.mp3" id="ak7"></audio>
+<audio src="ak47.mp3" id="ak8"></audio>
+<audio src="ak47.mp3" id="ak9"></audio>
+<audio src="ak47.mp3" id="ak10"></audio>
+
+<div id="enemy"></div>
+<div id="blood1"></div>
+<div id="blood2"></div>
+
+<div class="menu">
+<div class="scorebar">
+<p id="scoreIs">score is :</p>
+</div>
+
+<p id="scoreValue">0</p>
+
+<div class="missbar">
+<p>missing shoots :</p>
+</div>
+
+<p id="missingValue">0</p>
+</div>
+
+
+<style>
+
+#missingValue {
+margin: 3px 0 0 0;
+font-size: 20px;
+}
+
+
+.missbar p {
+margin: 0;
+}
+
+.missbar {
+margin: 5px 0 0 20px;
+width: 120px;
+height: 50px;
+font-size: 18px;
+float: left;
+}
+
+.scorebar {
+float: left;
+}
+
+#scoreIs {
+width: 80px;
+margin: 0 0 0 20px;
+font-size: 20px;
+}
+
+#scoreValue {
+font-size: 20px;
+margin: 0;
+}
+
+.menu {
+width: 800px;
+height: 130px;
+background: #d48c8c;
+margin: 0 auto;
+margin-top: 650px;
+border-radius: 25px;
+cursor: url(crosshair.cur), default !important;
+}
+
+.blood1 {
+background: url(blood1.png);
+width: 100px;
+height: 100px;
+position: absolute;
+}
+
+.blood2 {
+background: url(blood2.png);
+width: 100px;
+height: 100px;
+position: absolute;
+}
+
+html {
+cursor: url(crosshair.cur), default !important;
+}
+
+body {
+cursor: url(crosshair.cur), default !important;
+overflow: hidden;
+overflow-y: hidden; 
+}
+
+.box1_block {
+display: block;
+background: url(ct.png) no-repeat;
+background-position: center;
+width: 61px;
+height: 144px;
+position: absolute;
+}
+
+
+.box_none {
+background: url(blood3.png) no-repeat;
+width: 100px;
+height: 100px;
+}
+
+
+</style>
+
+<script>
+
+$(function() {
+
+
+var lastsound=1
+
+$("#enemy").click(function(e) {
+var sound="beep"+lastsound
+document.getElementById(sound).play();
+lastsound+=1
+if(lastsound > 10) { lastsound=1 } 
+
+var scoreContent = $("#scoreValue").text(); 
+$("#scoreValue").text(parseInt(scoreContent) +1);
+
+var x = e.pageX;
+var y = e.pageY;
+
+$(this).addClass("box_none");
+
+$("#blood1").addClass("blood1").css({"left": Math.floor((Math.random() * (( x - 100) - (x + 100) + 1)) + (x + 100)) + "px", "top": Math.floor((Math.random() * (( y - 100) - (y + 100) + 1)) + (y + 100)) + "px"});
+$("#blood2").addClass("blood2").css({"left": Math.floor((Math.random() * (( x - 100) - (x + 100) + 1)) + (x + 100)) + "px", "top": Math.floor((Math.random() * (( y - 100) - (y + 100) + 1)) + (y + 100)) + "px"});
+
+ 
+
+// $("#blood1").addClass("blood1").css({"left": Math.random() * ($(window).width() - 150) + "px", "top": Math.random() * ($(window).height() - 150) + "px"});
+// $("#blood2").addClass("blood2").css({"left": Math.random() * ($(window).width() - 150) + "px", "top": Math.random() * ($(window).height() - 150) + "px"});
+
+});
+
+var lastsoundAK=1
+
+$("html").click(function() {
+var sound="ak"+lastsoundAK
+document.getElementById(sound).play();
+lastsoundAK+=1
+if(lastsoundAK > 10) { lastsoundAK=1 }
+
+var missContent = $("#missingValue").text();
+$("#missingValue").text(parseInt(missContent) +1);
+});
+
+function target(){
+$("#enemy").removeClass("box_none").addClass("box1_block").css({"left": Math.random() * ($(window).width() - 70) + 'px', "top": Math.random() * ($(window).height() - 155) + 'px'});
+$("#blood1").removeClass("blood1")
+$("#blood2").removeClass("blood2")
+}
+
+
+setInterval(function () { 
+target();
+}, 1000);
+
+
+});
+</script>
+</body>
+</html>
