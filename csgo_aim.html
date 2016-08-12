@@ -31,6 +31,7 @@
 <div id="enemy"></div>
 <div id="blood1"></div>
 <div id="blood2"></div>
+<div id="blood3"></div>
 
 <div class="menu">
 <div class="scorebar">
@@ -39,30 +40,36 @@
 
 <p id="scoreValue">0</p>
 
+<div class="totalbar">
+<p>total shoots :</p>
+</div>
+
+<p id="totalValue">0</p>
+
 <div class="missbar">
 <p>missing shoots :</p>
 </div>
-
-<p id="missingValue">0</p>
+<p id="missValue">0</p>
 </div>
 
 
 <style>
 
-#missingValue {
+#totalValue {
 margin: 3px 0 0 0;
 font-size: 20px;
 }
 
 
-.missbar p {
+.totalbar p {
 margin: 0;
+width: 100px;
 }
 
-.missbar {
+.totalbar {
 margin: 5px 0 0 20px;
-width: 120px;
-height: 50px;
+width: 100px;
+height: 21px;
 font-size: 18px;
 float: left;
 }
@@ -80,6 +87,22 @@ font-size: 20px;
 #scoreValue {
 font-size: 20px;
 margin: 0;
+}
+
+.missbar {
+margin: 5px 0 0 20px;
+width: 120px;
+font-size: 17px;
+float: left;
+}
+
+.missbar p {
+margin: 0;
+}
+
+#missValue {
+margin: 2px 0 0 0;
+font-size: 21px;
 }
 
 .menu {
@@ -111,7 +134,6 @@ cursor: url(crosshair.cur), default !important;
 }
 
 body {
-cursor: url(crosshair.cur), default !important;
 overflow: hidden;
 overflow-y: hidden; 
 }
@@ -127,9 +149,14 @@ position: absolute;
 
 
 .box_none {
+display: none;
+}
+
+.blood3 {
 background: url(blood3.png) no-repeat;
 width: 100px;
 height: 100px;
+position: absolute;
 }
 
 
@@ -142,7 +169,7 @@ $(function() {
 
 var lastsound=1
 
-$("#enemy").click(function(e) {
+$("#enemy").mousedown(function() {
 var sound="beep"+lastsound
 document.getElementById(sound).play();
 lastsound+=1
@@ -151,13 +178,15 @@ if(lastsound > 10) { lastsound=1 }
 var scoreContent = $("#scoreValue").text(); 
 $("#scoreValue").text(parseInt(scoreContent) +1);
 
-var x = e.pageX;
-var y = e.pageY;
+var x = event.pageX;
+var y = event.pageY;
+
 
 $(this).addClass("box_none");
 
 $("#blood1").addClass("blood1").css({"left": Math.floor((Math.random() * (( x - 100) - (x + 100) + 1)) + (x + 100)) + "px", "top": Math.floor((Math.random() * (( y - 100) - (y + 100) + 1)) + (y + 100)) + "px"});
 $("#blood2").addClass("blood2").css({"left": Math.floor((Math.random() * (( x - 100) - (x + 100) + 1)) + (x + 100)) + "px", "top": Math.floor((Math.random() * (( y - 100) - (y + 100) + 1)) + (y + 100)) + "px"});
+$("#blood3").addClass("blood3").css({"left": Math.floor((Math.random() * ((x) - (x) + 1)) + (x)) + "px", "top": Math.floor((Math.random() * ( (y) - (y) + 1)) + (y) ) + "px"});
 
  
 
@@ -168,20 +197,30 @@ $("#blood2").addClass("blood2").css({"left": Math.floor((Math.random() * (( x - 
 
 var lastsoundAK=1
 
-$("html").click(function() {
+$("html").mousedown(function() {
 var sound="ak"+lastsoundAK
 document.getElementById(sound).play();
 lastsoundAK+=1
 if(lastsoundAK > 10) { lastsoundAK=1 }
 
-var missContent = $("#missingValue").text();
-$("#missingValue").text(parseInt(missContent) +1);
+var totalContent = $("#totalValue").text();
+$("#totalValue").text(parseInt(totalContent) +1);
+
+var scoreContent = $("#scoreValue").text();
+$("#missValue").text(parseInt(totalContent) - parseInt(scoreContent) +1);
+
+
 });
 
 function target(){
-$("#enemy").removeClass("box_none").addClass("box1_block").css({"left": Math.random() * ($(window).width() - 70) + 'px', "top": Math.random() * ($(window).height() - 155) + 'px'});
-$("#blood1").removeClass("blood1")
-$("#blood2").removeClass("blood2")
+var proc = ($(window).height() / 100) * 64; 
+var randomY = Math.floor(Math.random() * proc); 
+var randomX = Math.floor(Math.random() * ($(window).width() - 70));
+$("#enemy").removeClass("box_none").addClass("box1_block").css({"left": randomX + 'px', "top": randomY + 'px'});
+$("#blood1").removeClass("blood1");
+$("#blood2").removeClass("blood2");
+$("#blood3").removeClass("blood3");
+
 }
 
 
